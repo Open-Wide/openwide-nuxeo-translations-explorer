@@ -1,14 +1,14 @@
 $(document).ready(function() {
 
-// Constants
+// ==== Constants ====
 
 var LIMIT = 100;
 
-// Translations database
+// ==== Translations database ====
 
-var db = []; // {l: language, key: key, value: value, search: formatted value for search}
+var db = []; // array of {l: language, key: key, value: value, search: formatted value for search}
 
-// Functions
+// ==== Functions ====
 
 var decodeRegexp = /\\u([\d\w]{4})/gi;
 function decode(s) {
@@ -18,8 +18,8 @@ function decode(s) {
   return unescape(s);
 }
 
-function formatForSearch(s) {
-  return s.toLowerCase();
+function formatForSearch(key, value) {
+  return (value + '|' + key).toLowerCase();
 }
 
 function loadTranslations(file, language, callback) {
@@ -36,7 +36,7 @@ function loadTranslations(file, language, callback) {
           l: language,
           key: splitLine[0],
           value: decodedValue,
-          search: formatForSearch(decodedValue + '|' + splitLine[0])
+          search: formatForSearch(splitLine[0], decodedValue)
         });
       }
     }
@@ -50,9 +50,13 @@ function loadTranslations(file, language, callback) {
 }
 
 function search(query) {
+
+  // Search
+
   var formattedQuery = formatForSearch(query);
   var exactResults = [];
   var results = [];
+  
   for (var i in db) {
     var entry = db[i];
     var index = entry.search.indexOf(query);
@@ -63,17 +67,23 @@ function search(query) {
       else {
         results.push(entry);
       }
-      if (results.length > LIMIT) {
+      if (exactResults.length + results.length > LIMIT) {
         break;
       }
     }
   }
   results = exactResults.concat(results);
   
+  // Display results in a tbale
+  
   var table = '<table class="table table-striped"><tbody>';
   for (var i in results) {
     var result = results[i];
-    table += '<tr><td><img src="img/' + result.l + '.png"></td><td class="clipboard" data-clipboard-text="' + result.key + '"><b>' + result.key + '</b></td><td>' + result.value + '</td></tr>';
+    table += '<tr>'
+     + '<td><img src="img/' + result.l + '.png"></td>'
+     + '<td class="clipboard" data-clipboard-text="' + result.key + '"><b>' + result.key + '</b></td>'
+     + '<td>' + result.value + '</td>'
+     + '</tr>';
   }
   if (results.length >= LIMIT) {
     table += '<tr><td colspan="3">(more than ' + LIMIT + ' results)</td></tr>';
@@ -83,6 +93,8 @@ function search(query) {
   }
   table += '</tbody></table>';
   $('#results').html(table);
+  
+  // Easily copy keys to the clipboard
   
   $('.clipboard').each(function() {
     var clip = new ZeroClipboard(this, {
@@ -100,7 +112,7 @@ function search(query) {
   });
 }
 
-// Initialization
+// ==== Initialization ====
 
 loadTranslations('messages/messages.properties', 'en', function () {
   loadTranslations('messages/messages_fr.properties', 'fr', function () {
@@ -112,10 +124,10 @@ loadTranslations('messages/messages.properties', 'en', function () {
 $('#find').on('keyup', function() {
   search($(this).val());
 });
+
 $('#resetSearch').click(function () {
   search('');
   $('#find').val('');
 });
-
 
 });
