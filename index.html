@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+  <title>Nuxeo Translations explorer</title>
+  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="text/javascript" src="lib/jquery.min.js"></script>
+  <script type="text/javascript" src="lib/ZeroClipboard.min.js"></script>
+  <script type="text/javascript" src="nuxeo.js"></script>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+  <style type="text/css">
+    h1 {
+      font-size: 20px;
+      margin: 0;
+      padding: 0;
+    }
+    p {
+      margin-bottom: 20px;
+    }
+    .row {
+      padding-top: 30px;
+    }
+    .clipboard {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+    <div class="span4">
+    <h1>Nuxeo Translations Explorer</h1>
+    <p>
+      <small>Search among <span id="entryCount"></span> English and French<br />localization entries for Nuxeo 5.6.</small>
+    </p>
+    <p>
+      <div>
+        <input id="find" type="text" class="search-query" placeholder="Search" />
+        <input id="resetSearch" type="button" class="btn" value="x" />
+      </div>
+    </p>
+    <p id="clipboardSuccess" class="alert alert-success" style="display: none">Copied <span id="clipboardSuccessText"></span> to clipboard</p>
+    </div>
+    <span class="span8">
+      <div id="results"></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
