@@ -10,6 +10,14 @@ var db = []; // {l: language, key: key, value: value, search: formatted value fo
 
 // Functions
 
+var decodeRegexp = /\\u([\d\w]{4})/gi;
+function decode(s) {
+  s = s.replace(decodeRegexp, function (match, grp) {
+      return String.fromCharCode(parseInt(grp, 16));
+  });
+  return unescape(s);
+}
+
 function formatForSearch(s) {
   return s.toLowerCase();
 }
@@ -17,17 +25,18 @@ function formatForSearch(s) {
 function loadTranslations(file, language, callback) {
   $.ajax({
     url: file,
-    contentType: 'text/plain'
+    contentType: 'text/plain; charset=UTF-8'
   }).done(function(data, textStatus, jqXHR) {
     var lines = jqXHR.responseText.split('\n');
     for (var i in lines) {
       var splitLine = lines[i].split('=');
       if (splitLine[0].indexOf('#') != 0 && splitLine[1]) {
+        var decodedValue = decode(splitLine[1]);
         db.push({
           l: language,
           key: splitLine[0],
-          value: splitLine[1],
-          search: formatForSearch(splitLine[0] + '|' + splitLine[1])
+          value: decodedValue,
+          search: formatForSearch(splitLine[0] + '|' + decodedValue)
         });
       }
     }
