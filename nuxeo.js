@@ -36,7 +36,7 @@ function loadTranslations(file, language, callback) {
           l: language,
           key: splitLine[0],
           value: decodedValue,
-          search: formatForSearch(splitLine[0] + '|' + decodedValue)
+          search: formatForSearch(decodedValue + '|' + splitLine[0])
         });
       }
     }
@@ -51,16 +51,24 @@ function loadTranslations(file, language, callback) {
 
 function search(query) {
   var formattedQuery = formatForSearch(query);
+  var exactResults = [];
   var results = [];
   for (var i in db) {
     var entry = db[i];
-    if (entry.search.indexOf(query) != -1) {
-      results.push(entry);
+    var index = entry.search.indexOf(query);
+    if (index != -1) {
+      if (index == 0) {
+        exactResults.push(entry);
+      }
+      else {
+        results.push(entry);
+      }
       if (results.length > LIMIT) {
         break;
       }
     }
   }
+  results = exactResults.concat(results);
   
   var table = '<table class="table table-striped"><tbody>';
   for (var i in results) {
