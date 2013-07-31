@@ -1,58 +1,85 @@
 <!doctype html>
-<html>
+<html ng-app="nxtranslations">
 <head>
   <title>Nuxeo Translations explorer</title>
   <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
-  <script type="text/javascript" src="lib/jquery.min.js"></script>
-  <script type="text/javascript" src="lib/ZeroClipboard.min.js"></script>
-  <script type="text/javascript" src="nuxeo.js"></script>
+  
+  <script type="text/javascript" src="js/lib/underscore-min.js"></script>
+  <script type="text/javascript" src="js/lib/jquery.min.js"></script>
+  <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/lib/angular.min.js"></script>
+  <script type="text/javascript" src="js/lib/ui-bootstrap-custom-0.4.0.min.js"></script>
+  <script type="text/javascript" src="js/lib/ui-bootstrap-custom-tpls-0.4.0.min.js"></script>
+  <script type="text/javascript" src="js/lib/ZeroClipboard.min.js"></script>
+  <script type="text/javascript" src="js/nxtranslations.js"></script>
+  
   <link rel="stylesheet" href="css/bootstrap.min.css" />
-  <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
-  <style type="text/css">
-    h1 {
-      font-size: 20px;
-      margin: 0;
-      padding: 0;
-    }
-    p {
-      margin-bottom: 20px;
-    }
-    .row {
-      padding-top: 30px;
-    }
-    .clipboard {
-      cursor: pointer;
-      max-width: 400px;
-      word-wrap: break-word;
-    }
-    #clipboardSuccess {
-      position: fixed;
-      right: 20px;
-      top: 20px;
-    }
+  <link rel="stylesheet" href="css/nxtranslations.css" />
   </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" ng-controller="NxTranslationsCtrl">
   <div class="row">
-    <div class="span4">
-    <h1>Nuxeo Translations Explorer</h1>
-    <p>
-      <small>Search among <span id="entryCount"></span> English and French<br />localization entries for Nuxeo 5.6 <a href="https://github.com/mkalam-alami/nuxeo-translations-explorer">(sources)</a></small>
-    </p>
-    <p>
+  
+    <div class="col-lg-4">
+      <h1>Nuxeo Translations Explorer</h1>
+      <legend>By <a href="http://openwide.fr/">Open Wide</a> | <a href="https://github.com/open-wide/openwide-nuxeo-translations-explorer/">Browse sources</a></legend>
       <div>
-        <input id="find" type="text" class="search-query" placeholder="Search" />
-        <input id="resetSearch" type="button" class="btn" value="x" />
+        <label>Search</label>
+        <div class="form-group form-inline input-group">
+          <input ng-model="search" type="text" class="form-control" placeholder="Search" />
+          <span class="input-group-btn">
+            <button id="resetSearch" class="btn btn-default" ng-click="search = ''">Reset</button>
+          </span>
+        </div>
+        <label>Nuxeo version</label>
+        <div class="form-group">
+          <div class="btn-group">
+            <button ng-repeat="nuxeoVersion in nuxeoVersions"
+               class="btn btn-default"
+               ng-model="state.version"
+               btn-radio="'{{nuxeoVersion}}'"
+               ng-click="setVersion(nuxeoVersion)">
+                {{nuxeoVersion}}
+            </button>
+          </div>
+        </div>
+        <label>Languages</label>
+        <div class="form-group">
+          <div id="languages-list">
+            <button ng-repeat="language in languages"
+               class="btn btn-default btn-mini"
+               ng-class="{newLanguagesLine: $index % 10 == 0}"
+               ng-click="toggleLanguage(language.code)"
+               tooltip-placement="bottom" tooltip-append-to-body tooltip="{{language.name}}"
+               ng-model="state.languageButtons[$index]" btn-checkbox>
+                <img ng-src="img/{{language.code}}.gif" />
+            </button>
+          </div>
+        </div>
       </div>
-    </p>
-    <p id="clipboardSuccess" class="alert alert-success" style="display: none">Copied <span id="clipboardSuccessText"></span> to clipboard</p>
     </div>
-    <span class="span8">
-      <div id="results"></div>
+    
+    <span class="col-lg-8">
+      <table class="table table-bordered">
+        <tbody>
+        <tr ng-repeat="translation in translationsArray | filter:((!search || search.length < 3) ? '' : search) | limitTo: ((!search || search.length < 3) ? 10 : 50)">
+          <td class="column-keys clipboardSource" data-clipboard-text="{{translation.key}}" ow-clipboard>{{translation.key}}</td>
+          <td>
+            <ul class="list-group list-group-translations">
+              <li class="list-group-item" ng-repeat="value in translation.values">
+                <span class="badge badge-translation"><img ng-src="img/{{value.language}}.gif" /></span>
+                {{value.text}}
+              </li>
+            </ul>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+  <div id="clipboardSuccess" class="alert alert-success clipboard-alert" style="display: none">Copied <span id="clipboardSuccessKey"></span> to clipboard</div>
 </div>
 
 </body>

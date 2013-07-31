@@ -1,0 +1,90 @@
+/* General */
+
+body {
+  padding-top: 30px;
+}
+
+h1 {
+  font-size: 25px;
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  font-size: 16px;
+}
+
+.clipboard-alert {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  min-width: 400px;
+  padding: 10px;
+  text-align: center;
+}
+
+#clipboardSuccessKey {
+  font-weight: bold;
+}
+
+/* Search */
+
+#languages-list button {
+  display: block;
+  float: left;
+  margin-left: -1px;
+  margin-bottom: -1px;
+}
+
+.newLanguagesLine {
+  clear: left;
+}
+
+/* Results */
+
+.list-group-translations li {
+  border-width: 0;
+  border-top-width: 1px;
+  border-top-color: #EEE;
+}
+.list-group-translations li:first-child {
+  border-top-width: 0;
+}
+
+.badge-translation {
+  background: none;
+}
+
+.clipboardSource {
+  cursor: pointer;
+  max-width: 400px;
+  font-weight: bold;
+  word-wrap: break-word;
+}
+
+.column-keys {
+  background-color: #F5F5F5;
+  width: 30%;
+}
+
+/* Theme overrides & fixes */
+
+.btn-default {
+  background-color: #777;
+}
+
+.btn-default:focus:not(.active) {
+  background-color: #777;
+}
+
+.btn-group .btn {
+  margin-left: -1px;
+}
+
+.list-group  {
+  margin-bottom: 0;
+}
+
+.list-group-item {
+  padding: 5px 10px 5px 10px;
+}
