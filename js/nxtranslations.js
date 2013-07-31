@@ -175,7 +175,7 @@ return function($scope, $http) {
     var languagesToLoad = $scope.state.languages.slice(0);
     languagesToLoad.push('default');
     _.each(languagesToLoad, function(language, i) {
-      var url = '/l10n/' + $scope.state.version + '/messages' + ((language == 'default') ? '' : ('_' + language)) + '.properties';
+      var url = 'l10n/' + $scope.state.version + '/messages' + ((language == 'default') ? '' : ('_' + language)) + '.properties';
       fetchProperties($http, url, function(properties) {
         $scope.translations = fillTranslations($scope.translations, properties, ((language == 'default') ? 'en' : language));
         $scope.translationsArray = _.values($scope.translations);
