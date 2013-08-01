@@ -1,3 +1,5 @@
-## [Nuxeo Translations Explorer](http://mkalam-alami.github.io/nuxeo-translations-explorer/)
+## [Nuxeo Translations Explorer](http://mkalam-alami.github.io/openwide-nuxeo-translations-explorer/)
 
-An unofficial tool to quickly retrieve translation keys for Nuxeo.
+A simple browser for Nuxeo translations.
+
+Powered by [Angular.js](http://angularjs.org/) & [Bootstrap 3](http://twitter.github.io/bootstrap/).
