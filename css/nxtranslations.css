@@ -6,7 +6,7 @@ body {
 
 h1 {
   font-size: 25px;
-  margin: 0;
+  margin: 0 0 20px 0;
   padding: 0;
 }
 
@@ -29,15 +29,25 @@ legend {
 
 /* Search */
 
+#languages-list {
+  width: 280px;
+  font-size: 0;
+}
+
 #languages-list button {
-  display: block;
-  float: left;
+  display: inline-block;
   margin-left: -1px;
   margin-bottom: -1px;
 }
 
 .newLanguagesLine {
   clear: left;
+}
+
+.credits {
+  padding-top: 10px;
+  font-size: 80%;
+  color: #666;
 }
 
 /* Results */
