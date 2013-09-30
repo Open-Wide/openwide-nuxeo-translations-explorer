@@ -4,7 +4,7 @@ var NxTranslationsCtrl = (function() {
 
 // Constants
 
-var NUXEO_VERSIONS = ['5.6', '5.7'];
+var NUXEO_VERSIONS = ['5.6.0', '5.7.3', '5.7.3-SNAPSHOT'];
 var LANGUAGES = [
   {name: 'English', code: 'en'},
   {name: 'French', code: 'fr'},
@@ -27,7 +27,7 @@ var LANGUAGES = [
   {name: 'Serbian', code: 'sr'},
   {name: 'Vietnamese', code: 'vn'}
 ];
-var DEFAULT_VERSION = '5.6';
+var DEFAULT_VERSION = '5.6.0';
 var DEFAULT_LANGUAGES = ['en', 'fr'];
 
 // Directives & dependencies
