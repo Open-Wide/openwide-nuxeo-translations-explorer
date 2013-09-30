@@ -1,4 +1,4 @@
-## [Nuxeo Translations Explorer](http://open-wide.github.io/openwide-nuxeo-translations-explorer/)
+## [Nuxeo Translations Explorer](http://open-wide.github.io/owsi-nuxeo-translations-explorer/)
 
 A simple browser for Nuxeo translations.
 
