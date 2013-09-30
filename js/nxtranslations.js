@@ -3,7 +3,7 @@ var NxTranslationsCtrl = (function() {
 'use strict';
 
 // Constants
-
+  
 var NUXEO_VERSIONS = ['5.6.0', '5.7.3'];
 var LANGUAGES = [
   {name: 'English', code: 'en'},
@@ -12,20 +12,21 @@ var LANGUAGES = [
   {name: 'Spanish', code: 'es'},
   {name: 'Portugese', code: 'pt'},
   {name: 'Italian', code: 'it'},
-  
+
   {name: 'Arabic', code: 'ar'},
   {name: 'Basque', code: 'eu'},
   {name: 'Bresilian Portugese', code: 'pt_BR'},
+  {name: 'Canadian French', code: 'fr_CA'}, // since 5.7
   {name: 'Catalan', code: 'ca'},
-  {name: 'Chinese', code: 'cn'},
-  {name: 'Czech', code: 'cs'},
-  {name: 'Galician', code: 'ga'},
+  {name: 'Chinese', code: 'zh_CN'},
+  {name: 'Czech', code: 'cs'}, // since 5.7
+  {name: 'Galician', code: 'gl'},
   {name: 'Greek', code: 'el_GR'},
   {name: 'Japanese', code: 'ja'},
   {name: 'Polish', code: 'pl'},
   {name: 'Russian', code: 'ru'},
   {name: 'Serbian', code: 'sr'},
-  {name: 'Vietnamese', code: 'vn'}
+  {name: 'Vietnamese', code: 'vi'}
 ];
 var DEFAULT_VERSION = '5.6.0';
 var DEFAULT_LANGUAGES = ['en', 'fr'];
