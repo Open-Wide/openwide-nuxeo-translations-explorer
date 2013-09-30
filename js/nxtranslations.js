@@ -4,7 +4,7 @@ var NxTranslationsCtrl = (function() {
 
 // Constants
 
-var NUXEO_VERSIONS = ['5.6.0', '5.7.3', '5.7.3-SNAPSHOT'];
+var NUXEO_VERSIONS = ['5.6.0', '5.7.3'];
 var LANGUAGES = [
   {name: 'English', code: 'en'},
   {name: 'French', code: 'fr'},
