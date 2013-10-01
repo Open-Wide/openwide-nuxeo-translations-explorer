@@ -5,4 +5,4 @@
 # ==================
 
 cat _config.yml
-jekyll serve
+jekyll serve -w

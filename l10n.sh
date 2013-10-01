@@ -40,7 +40,7 @@ fi
 
 echo "Searching translations files..."
 
-for translationFile in `find "$nuxeoSourcesFolder" -name messages_*.properties`
+for translationFile in `find "$nuxeoSourcesFolder" -name messages*.properties`
 do  
   translationFilename=$(basename "$translationFile")
   targetFile="./$targetFolder/$translationFilename"

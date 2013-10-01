@@ -28,8 +28,11 @@ var LANGUAGES = [
   {name: 'Serbian', code: 'sr'},
   {name: 'Vietnamese', code: 'vi'}
 ];
-var DEFAULT_VERSION = '5.6.0';
-var DEFAULT_LANGUAGES = ['en', 'fr'];
+
+var INITIAL_VERSION = '5.6.0';
+var INITIAL_LANGUAGES = ['en', 'fr'];
+
+var DEFAULT_LANGUAGE = 'default';
 
 // Directives & dependencies
 
@@ -44,10 +47,10 @@ app.directive('owClipboard', function() {
       var clip = new ZeroClipboard(element[0]);
       clip.on('complete', function(client, args) {
        $('#clipboardSuccessKey').html($(this).html());
-        var clipboardSuccess = $('#clipboardSuccess');
-        clipboardSuccess.fadeIn(300, function() {
+        var $clipboardSuccess = $('#clipboardSuccess');
+        $clipboardSuccess.fadeIn(300, function() {
           setTimeout(function() {
-            clipboardSuccess.fadeOut(300);
+            $clipboardSuccess.fadeOut(300);
           }, 2000);
         });
       });
@@ -77,11 +80,11 @@ var parseStateString = function(stateString) {
 var loadState = function() {
   var loadedState = parseStateString(window.location.hash) || {};
   var state = {
-    version: loadedState.version || DEFAULT_VERSION,
-    languages: DEFAULT_LANGUAGES,
+    version: loadedState.version || INITIAL_VERSION,
+    languages: INITIAL_LANGUAGES,
   };
   if (loadedState.languages) {
-    loadedState.languages = loadedState.languages.split(',');
+    state.languages = loadedState.languages.split(',');
   }
   refreshLanguageButtons(state);
   return state;
@@ -135,9 +138,12 @@ function fillTranslations(translations, properties, language) {
     }
     
     var missing = true;
-    _.each(item.values, function(value) {
-      if (value.language == language) {
+    _.each(item.values, function(value, key) {
+      if ((value.language == language) || language == DEFAULT_LANGUAGE) {
         missing = false;
+      }
+      else if (value.language == DEFAULT_LANGUAGE) {
+        item.values.splice(key, 1);
       }
     });
     if (missing) {
@@ -155,9 +161,12 @@ function fetchProperties($http, url, callback) {
     callback(translationsCache[url]);
   }
   else {
+    var $loaderIcon = $('#loader');
+    $loaderIcon.show();
     $http({method: 'GET', url: url}).success(function(data) {
       translationsCache[url] = parseProperties(data);
       callback(translationsCache[url]);
+      $loaderIcon.hide();
     });
   }
 }
@@ -174,11 +183,11 @@ return function($scope, $http) {
     $scope.translations = {};
     $scope.translationsArray = {};
     var languagesToLoad = $scope.state.languages.slice(0);
-    languagesToLoad.push('default');
+    languagesToLoad.push(DEFAULT_LANGUAGE);
     _.each(languagesToLoad, function(language, i) {
-      var url = 'l10n/' + $scope.state.version + '/messages' + ((language == 'default') ? '' : ('_' + language)) + '.properties';
+      var url = 'l10n/' + $scope.state.version + '/messages' + ((language == DEFAULT_LANGUAGE) ? '' : ('_' + language)) + '.properties';
       fetchProperties($http, url, function(properties) {
-        $scope.translations = fillTranslations($scope.translations, properties, ((language == 'default') ? 'en' : language));
+        $scope.translations = fillTranslations($scope.translations, properties, language);
         $scope.translationsArray = _.values($scope.translations);
       });
     });

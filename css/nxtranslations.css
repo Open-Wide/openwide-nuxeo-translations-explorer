@@ -29,6 +29,11 @@ legend {
 
 /* Search */
 
+#loader {
+  margin-left: 10px;
+  display: none;
+}
+
 #languages-list {
   width: 280px;
   font-size: 0;
