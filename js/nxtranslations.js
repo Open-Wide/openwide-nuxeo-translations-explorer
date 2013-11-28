@@ -4,33 +4,34 @@ var NxTranslationsCtrl = (function() {
 
 // Constants
   
-var NUXEO_VERSIONS = ['5.6.0', '5.7.3'];
+var NUXEO_VERSIONS = ['5.6', '5.8'];
 var LANGUAGES = [
   {name: 'English', code: 'en'},
-  {name: 'French', code: 'fr'},
-  {name: 'German', code: 'de'},
-  {name: 'Spanish', code: 'es'},
-  {name: 'Portugese', code: 'pt'},
-  {name: 'Italian', code: 'it'},
+  {name: 'French', code: 'fr_FR'},
+  {name: 'German', code: 'de_DE'},
+  {name: 'Spanish', code: 'es_ES'},
+  {name: 'Portugese', code: 'pt_PT'},
+  {name: 'Italian', code: 'it_IT'},
 
-  {name: 'Arabic', code: 'ar'},
-  {name: 'Basque', code: 'eu'},
+  {name: 'Arabic', code: 'ar_SA'},
+  {name: 'Basque', code: 'eu_ES'},
   {name: 'Bresilian Portugese', code: 'pt_BR'},
   {name: 'Canadian French', code: 'fr_CA'}, // since 5.7
-  {name: 'Catalan', code: 'ca'},
+  {name: 'Catalan', code: 'ca_ES'},
   {name: 'Chinese', code: 'zh_CN'},
-  {name: 'Czech', code: 'cs'}, // since 5.7
-  {name: 'Galician', code: 'gl'},
+  {name: 'Czech', code: 'cs_CZ'}, // since 5.7
+  //{name: 'Dutch', code: 'nl_NL'}, // since 5.8 (but seemingly empty translation)
+  {name: 'Galician', code: 'gl_ES'},
   {name: 'Greek', code: 'el_GR'},
-  {name: 'Japanese', code: 'ja'},
-  {name: 'Polish', code: 'pl'},
-  {name: 'Russian', code: 'ru'},
-  {name: 'Serbian', code: 'sr'},
-  {name: 'Vietnamese', code: 'vi'}
+  {name: 'Japanese', code: 'ja_JP'},
+  {name: 'Polish', code: 'pl_PL'},
+  {name: 'Russian', code: 'ru_RU'},
+  {name: 'Serbian', code: 'sr_RS'},
+  {name: 'Vietnamese', code: 'vi_VN'}
 ];
 
-var INITIAL_VERSION = '5.6.0';
-var INITIAL_LANGUAGES = ['en', 'fr'];
+var INITIAL_VERSION = '5.8';
+var INITIAL_LANGUAGES = ['en', 'fr_FR'];
 
 var DEFAULT_LANGUAGE = 'default';
 
@@ -163,11 +164,16 @@ function fetchProperties($http, url, callback) {
   else {
     var $loaderIcon = $('#loader');
     $loaderIcon.show();
-    $http({method: 'GET', url: url}).success(function(data) {
-      translationsCache[url] = parseProperties(data);
-      callback(translationsCache[url]);
-      $loaderIcon.hide();
-    });
+    $http({method: 'GET', url: url})
+      .success(function(data) {
+        translationsCache[url] = parseProperties(data);
+        callback(translationsCache[url]);
+        $loaderIcon.hide();
+      })
+      .error(function() {
+        // TODO Display errors
+        $loaderIcon.hide();
+      });
   }
 }
 
